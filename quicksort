@@ -1,0 +1,58 @@
+import java.util.Scanner;
+import java.util.Arrays;
+public class QuickSort {
+
+    public static void quickSort(int[] arr,int low,int high){
+        if(low<high){
+            int pivotIndex=partition(arr,low,high);
+            quickSort(arr,low,pivotIndex-1);
+            quickSort(arr,pivotIndex+1,high);
+        }
+    }
+    public static int partition(int[] array,int low,int high){
+        int pivot=array[low];
+        int i=low+1;
+        int j=high;
+        while(i<=j){
+            while(array[i]<=pivot){
+                i++;
+            }
+            while(array[j]>pivot){
+                j--;
+            }
+            if(i<j) interchange(array,i,j);
+        }
+        interchange(array,low,j);
+        return j;
+    }
+    public static void interchange(int[] arr,int i,int j){
+        int temp=arr[i];
+        arr[i]=arr[j];
+        arr[j]=temp;
+    }
+
+
+
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        System.out.print("Enter size of array: ");
+        int n=sc.nextInt();
+        int[] arr=new int[n];
+        System.out.println("Enter elements of the array: ");
+        for(int i=0;i<n;i++){
+            arr[i]=sc.nextInt();
+        }
+        System.out.println("Original array: ");
+        for(int num:arr){
+            System.out.print(num+ " ");
+        }
+        long startTime=System.nanoTime();
+        quickSort(arr,0,arr.length-1);
+        long endTime=System.nanoTime();
+        for(int num:arr){
+            System.out.print(num+ " ");
+        }
+        long executionTime=endTime-startTime;
+        System.out.println("\n Exection Time in nanoseconds: "+ executionTime);
+    }
+}
