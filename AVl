@@ -1,0 +1,110 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
+class Node{
+    int data;
+    int h;
+    Node leftChild;
+    Node rightChild;
+    Node(){
+        data=0;
+        h=0;
+        leftChild=null;
+        rightChild=null;
+    }
+    public Node(int value){
+        this.data=data;
+        h=0;
+        leftChild=null;
+        rightChild=null;
+    }
+}
+class ConstructAVLTree{
+    private Node root;
+    ConstructAVLTree(){
+        root=null;
+    }
+    public void insert(int value){
+        root=insert(root,value);
+    }
+    private int getHeight(Node node){
+        return node==null?-1:node.h;
+    }
+    private int max(int l,int r){
+        return l>r?l:r;
+    }
+    private Node insert(Node node,int value){
+        if(node==null)
+            node=new Node(value);
+        else if(value<node.data){
+            node.leftChild=insert(node.leftChild,value);
+            if(getHeight(node.leftChild)-getHeight(node.rightChild)==2){
+                if(value<node.leftChild.data)
+                    node=rotateWithLeftChild(node);
+                else
+                    node=doubleWithLeftChild(node);
+            }
+        }
+        else if(value>node.data){
+            node.rightChild=insert(node.rightChild, value);
+            if(getHeight(node.rightChild)-getHeight(node.leftChild)==2){
+                if(value>node.rightChild.data)
+                    node=rotateWithRightChild(node);
+                else
+                    node=doubleWithRightChild(node);
+            }
+        }else ;
+        node.h=max(getHeight(node.leftChild),getHeight(node.rightChild));
+        return node;
+    }
+    private Node rotateWithLeftChild(Node node2)
+    {
+        Node node1 = node2.leftChild;
+        node2.leftChild = node1. rightChild;
+        node1.rightChild = node2;
+        node2.h = max(getHeight(node2.leftChild), getHeight(node2.rightChild)) + 1;
+        node1.h = max(getHeight(node1.leftChild), node2.h) + 1;
+        return node1;
+    } 
+
+    private Node rotateWithRightChild(Node node1)
+    {
+        Node node2 = node1.rightChild;
+        node1.rightChild = node2.leftChild;
+        node2.leftChild = node1;
+        node1.h = max(getHeight(node1.leftChild), getHeight(node1.rightChild)) + 1;
+        node2.h = max(getHeight(node2.rightChild), node1.h)+1;
+        return node2;
+    }
+    private Node doubleWithLeftChild(Node node3)
+    {
+        node3.leftChild = rotateWithRightChild( node3.leftChild );
+        return rotateWithLeftChild( node3 );
+        }
+    private Node doubleWithRightChild(Node node1)
+    {
+        node1.rightChild = rotateWithLeftChild( node1.rightChild );
+        return rotateWithRightChild( node1 );
+    }
+    
+    
+    
+    
+    
+}
+public class AVLTree{
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        ConstructAVLTree avl=new ConstructAVLTree();
+        while(true){
+            System.out.println("Insert an element");
+                    System.out.println("Enter element");
+                    int item=sc.nextInt();
+                    avl.insert(item);
+                   
+
+            
+        }
+    }
+}
