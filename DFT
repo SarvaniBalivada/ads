@@ -1,0 +1,16 @@
+public List<Integer>dftMatrix(int startvertex){
+        boolean[] visited=new boolean[vertices];
+        List<Integer>result=new ArrayList<>();
+        dftMatrixUtil(startvertex,visited,result);
+        return result;
+    }
+    private void dftMatrixUtil(int vertex,boolean[] visited,List<Integer>result){
+        visited[vertex]=true;
+        result.add(vertex);
+
+        for(int i=0;i<vertices;i++){
+            if(adjMatrix[vertex][i]==1 && !visited[i]){
+                dftMatrixUtil(i,visited,result);
+            }
+        }
+    }
